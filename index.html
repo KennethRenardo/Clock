@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Something</title>
+        <title>My Page!</title>
         <style>
-             body {
+            body {
                 background-color: pink;
                 font-family:Helvetica Neue, Helvetica, Arial, sans-serif; 
                 margin:0;
@@ -38,7 +38,8 @@
             }
             #timeDisplay{
                 text-align:center;
-                font-size:100px;
+                font-size:50px;
+                font-family:futura;
             }
             #greetingText{
                 white-space:nowrap;
@@ -52,8 +53,10 @@
             @keyframes caret {
                 50% {border-color: transparent;}
             }
-            .btn {
-                color: #fff;
+            #button {
+                color:transparent;
+                background-color: transparent;
+                border-color: transparent;
                 cursor: pointer;
                 font-size:16px;
                 font-weight: 400;
@@ -64,6 +67,14 @@
                 text-decoration: none;
                 text-transform: uppercase;
                 width: 100%; 
+            }
+            #button:hover{
+                color:white;
+                border-color: transparent;
+                text-align:center;
+            }
+            #button:focus{
+                outline-width: 0;
             }
 
             
@@ -99,11 +110,27 @@
                     return "Good Night";
                 }
             }
+            function playPhrase(){
+                StartTextAnimation(1)
+            }
             var greetText = getGreet();
+            var count = 1;
+            
             document.addEventListener('DOMContentLoaded',function(event){
             // array with texts to type in typewriter
-            var dataText = [greetText+", Jessie!", "A phrase will be here"];
-            
+            document.getElementById('button').onclick = function() {
+                if(count == 8){
+                    count = 0;
+                    StartTextAnimation(count);
+
+                }
+                else{
+                    StartTextAnimation(count);
+                    count ++;
+                }
+            };
+            var dataText = [greetText+", Jessie!", "I love you!","For ever","and ever","and ever","and ever","and ever","and everr ~"];
+            var revealPressed = false;
             // type one text in the typwriter
             // keeps calling itself until the text is finished
             function typeWriter(text, i, fnCallback) {
@@ -135,7 +162,8 @@
                 // text exists! start typewriter animation
                 typeWriter(dataText[i], 0, function(){
                 // after callback (and whole text has been animated), start next text
-                StartTextAnimation(i + 1);
+                
+                
                 });
                 }
             }
@@ -150,7 +178,7 @@
         <div id="timeDisplay"></div>
         <div id="greetingText"><h1></h1></div>
         <div>
-            <a href="https://www.google.com/" class="btn">Hover</a>
+            <input id="button" type="submit" name="button" value="Click Me" class="btn" ></input>
         </div>
     </body>
 </html>
