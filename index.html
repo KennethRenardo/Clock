@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>My Page!</title>
+        <style>
+            body {
+                background-color: pink;
+                font-family:Helvetica Neue, Helvetica, Arial, sans-serif; 
+                margin:0;
+                padding:0;
+            }
+            header{
+                background:rgb(0, 0, 0);
+                color:white;
+                padding:20px 20px;
+            }
+            section{
+                background:white;
+                padding:10px 20px;
+                display:flex;
+            }
+            div{
+                margin:auto;
+            }
+            footer{
+                background:black;
+                color:white;
+                padding: 10px 20px;
+            }
+            #centered{
+                position:absolute;
+                width:300px;
+                height:200px;
+                z-index:15;
+                top:50%;
+                left:50%;
+                margin:-100px 0 0 -150px;
+            }
+            #timeDisplay{
+                text-align:center;
+                font-size:50px;
+                font-family:futura;
+            }
+            #greetingText{
+                white-space:nowrap;
+                font-family:monospace;
+            }
+            span {
+                border-right: .05em solid;
+                animation: caret 1s steps(1) infinite;
+            }
+
+            @keyframes caret {
+                50% {border-color: transparent;}
+            }
+            #button {
+                color:transparent;
+                background-color: transparent;
+                border-color: transparent;
+                cursor: pointer;
+                font-size:16px;
+                font-weight: 400;
+                line-height: 45px;
+                margin: 0 0 2em;
+                max-width: 160px; 
+                position: relative;
+                text-decoration: none;
+                text-transform: uppercase;
+                width: 100%; 
+            }
+            #button:hover{
+                color:white;
+                border-color: transparent;
+                text-align:center;
+            }
+            #button:focus{
+                outline-width: 0;
+            }
+
+            
+        </style>
+        <script>
+            function startTime() {
+              var today = new Date();
+              var h = today.getHours();
+              var m = today.getMinutes();
+              var s = today.getSeconds();
+              m = checkTime(m);
+              s = checkTime(s);
+              document.getElementById('timeDisplay').innerHTML = h + ":" + m + ":" + s;
+              var t = setTimeout(startTime, 500);
+            }
+            function checkTime(i) {
+              if (i < 10) {i = "0" + i};  // add zero in front of numbers < 10
+              return i;
+            }
+            function getGreet(){
+                var today = new Date();
+                var i = today.getHours();
+                if (i < 12) {
+                    return "Good Morning";
+                }
+                else if(i < 17){
+                    return "Good Afternoon";
+                }
+                else if(i < 22){
+                    return "Good Evening";
+                }
+                else{
+                    return "Good Night";
+                }
+            }
+            function playPhrase(){
+                StartTextAnimation(1)
+            }
+            var greetText = getGreet();
+            var count = 1;
+            
+            document.addEventListener('DOMContentLoaded',function(event){
+            // array with texts to type in typewriter
+            document.getElementById('button').onclick = function() {
+                if(count == 8){
+                    count = 0;
+                    StartTextAnimation(count);
+
+                }
+                else{
+                    StartTextAnimation(count);
+                    count ++;
+                }
+            };
+            var dataText = [greetText+", Jessie!", "I love you!","For ever","and ever","and ever","and ever","and ever","and everr ~"];
+            var revealPressed = false;
+            // type one text in the typwriter
+            // keeps calling itself until the text is finished
+            function typeWriter(text, i, fnCallback) {
+                // chekc if text isn't finished yet
+                if (i < (text.length)) {
+                // add next character to h1
+                document.querySelector("h1").innerHTML = text.substring(0, i+1) +'<span aria-hidden="true"></span>';
+
+                // wait for a while and call this function again for next character
+                setTimeout(function() {
+                    typeWriter(text, i + 1, fnCallback)
+                }, 100);
+                }
+                else if (typeof fnCallback == 'function') {
+                    // call callback after timeout
+                    setTimeout(fnCallback, 5000);
+                }
+            }
+            // start a typewriter animation for a text in the dataText array
+            function StartTextAnimation(i) {
+                if (typeof dataText[i] == 'undefined'){
+                    setTimeout(function() {
+                    StartTextAnimation(0);
+                    }, 40000);
+                }
+
+                // check if dataText[i] exists
+                if (i < dataText[i].length) {
+                // text exists! start typewriter animation
+                typeWriter(dataText[i], 0, function(){
+                // after callback (and whole text has been animated), start next text
+                
+                
+                });
+                }
+            }
+            // start the text animation
+            StartTextAnimation(0);
+            });
+        </script>
+        
+    </head>
+    
+    <body id="centered" onload="startTime()">
+        <div id="timeDisplay"></div>
+        <div id="greetingText"><h1></h1></div>
+        <div>
+            <input id="button" type="submit" name="button" value="Click Me" class="btn" ></input>
+        </div>
+    </body>
+</html>
